@@ -43,6 +43,32 @@ int main() {
     }
     else 
     {
+
+        std::string str;
+        std::ifstream in(p / "login.txt");
+        if (in.is_open())
+        {
+            while (getline(in, str))
+            {
+                std::cout << "login and password: " << str << std::endl;
+                size_t a = str.find(name);
+                if (a != std::string::npos)
+                {
+                    std::cout << "all were well" << std::endl;
+                }
+                else 
+                {
+                    std::cout << "registration faliled user has benn life" << std::endl;
+                }
+            }
+            in.close();
+        }
+        else 
+        {
+            std::cout << "file не удалось открыть" << std::endl;
+        }
+
+
         fs::create_directories("db/users/" + name);
         p /= "login.txt";
         fs::create_directories(p.parent_path());
