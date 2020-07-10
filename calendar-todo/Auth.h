@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
-//#include <Windows.h>
+#include "FileSystem.h";
+
 
 class Auth
 {
@@ -14,16 +15,16 @@ class Auth
 
 	void warningUser(std::string data) 
 	{
-		std::cout << "Your data: " << data << " is not corrected" << std::endl;
+		std::cout << "Введенные вами данные: " << data << " не коректные, повторите заново" << std::endl;
 	}
 
 public:
-	void setUserName(std::string name)
+	void setUserName(std::string name) 
 	{
 		if (isValidation(name))
 			warningUser(name);
-		else 
-			this->name = name;
+		else
+			this->name = name; 
 	}
 
 	void setUserPassword(std::string password)
@@ -33,6 +34,58 @@ public:
 		else
 			this->password = password;
 
+	}
+
+	void registration() 
+	{
+		FileSystem fls;
+		std::string name, password;
+
+		std::cout << "Введите ваш логин для регистрации: ";
+		std::cin >> name;
+
+		std::cout << "Создайте уникальный пароль: ";
+		std::cin >> password;
+
+		setUserName(name);
+		setUserPassword(password);
+
+
+		fs::path p = fls.getPath();
+		if (getUserName().size() != 0)
+		{
+			std::string str;
+			std::ifstream in(fls.getPathLoginFile());
+			if (in.is_open())
+			{
+				bool key = false;
+				while (getline(in, str))
+				{
+					key = false;
+					size_t pos = str.find(getUserName());
+					if (pos != std::string::npos)
+						break;
+					else
+						key = true;
+				}
+				if (key)
+				{
+					fs::path p = fls.createUserDerictories(name);
+					fls.writingRegToFile(p, name, password);
+					std::cout << "Вы были зарегистрированы!!!" << std::endl;
+				}
+				else
+				{
+					std::cout << "Вы не были зарегистрированы!!!" << std::endl;
+				}
+			}
+			else
+			{
+				fs::path p = fls.createUserDerictories(name);
+				fls.writingRegToFile(p, name, password);
+			}
+			in.close();
+		}
 	}
 
 	std::string getUserName() const
@@ -45,3 +98,4 @@ public:
 		return this->password;
 	}
 };
+
