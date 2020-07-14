@@ -6,14 +6,10 @@
 #include <conio.h>
 #include <windows.h>
 
-
-//using namespace std;
 enum Color { Black = 0, Blue, Green, Cyan, Red, Magenta, Brown, LightGray, DarkGray, LightBlue = 9, LightGreen, LightCyan, LightRed, LightMagenta, Yellow, White };
-//
 enum KEYBOARD_CODE { UP = 72, LEFT = 75, RIGHT = 77, DOWN = 80, ENTER = 13, ESC = 27, SPACE = 32 };
-//
 HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-//
+
 void setColor(Color text, Color background)
 {
 	SetConsoleTextAttribute(hStdOut, (WORD)((background << 4) | text));
