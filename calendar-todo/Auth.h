@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <string>
 #include "FileSystem.h";
@@ -36,7 +37,7 @@ public:
 
 	}
 
-	void registration() 
+	bool registration() 
 	{
 		FileSystem fls;
 		std::string name, password;
@@ -85,6 +86,52 @@ public:
 				fls.writingRegToFile(p, name, password);
 			}
 			in.close();
+		}
+		return false;
+	}
+
+	bool login() 
+	{
+		FileSystem fls;
+		std::string name, password;
+
+		std::cout << "Введите ваш логин для входа: ";
+		std::cin >> name;
+
+		std::cout << "Введите ваш пароль, пожалуйста: ";
+		std::cin >> password;
+
+
+		fs::path p = fls.getPath();
+		std::string str;
+		std::ifstream in(fls.getPathLoginFile());
+		if (in.is_open())
+		{
+			bool key = false;
+
+			while (!key)
+			{
+				getline(in, str);
+
+				key = false;
+
+				size_t pos = str.find(name + " " + password);
+
+				if (pos != std::string::npos) 
+					key = true;
+			}
+			if (key)
+			{
+				std::cout << "Такой пользователь есть, вы в вошли" << std::endl;
+				in.close();
+				return true;
+			}
+			else
+			{
+				std::cout << "Такого пользователя нет, проверте правильность введеных данных" << std::endl;
+				in.close();
+				return false;
+			}
 		}
 	}
 
