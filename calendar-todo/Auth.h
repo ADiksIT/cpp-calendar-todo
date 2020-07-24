@@ -1,13 +1,15 @@
 #pragma once
+
 #include <iostream>
 #include <string>
-#include "FileSystem.h";
+#include "API.h"
 
 
 class Auth
 {
 	std::string name;
 	std::string password;
+	API api;
 
 	bool isValidation(std::string value)
 	{
@@ -37,108 +39,18 @@ public:
 
 	}
 
-	bool registration() 
-	{
-		FileSystem fls;
-		std::string name, password;
+	bool login();
+	
+	bool registration();
 
-		std::cout << "Введите ваш логин для регистрации: ";
-		std::cin >> name;
+	json jsonData(std::string* mes);
 
-		std::cout << "Создайте уникальный пароль: ";
-		std::cin >> password;
-
-		setUserName(name);
-		setUserPassword(password);
-
-
-		fs::path p = fls.getPath();
-		if (getUserName().size() != 0)
-		{
-			std::string str;
-			std::ifstream in(fls.getPathLoginFile());
-			if (in.is_open())
-			{
-				bool key = false;
-				while (getline(in, str))
-				{
-					key = false;
-					size_t pos = str.find(getUserName());
-					if (pos != std::string::npos)
-						break;
-					else
-						key = true;
-				}
-				if (key)
-				{
-					fs::path p = fls.createUserDerictories(name);
-					fls.writingRegToFile(p, name, password);
-					std::cout << "Вы были зарегистрированы!!!" << std::endl;
-				}
-				else
-				{
-					std::cout << "Вы не были зарегистрированы!!!" << std::endl;
-				}
-			}
-			else
-			{
-				fs::path p = fls.createUserDerictories(name);
-				fls.writingRegToFile(p, name, password);
-			}
-			in.close();
-		}
-		return false;
+	std::string getUserName() const {
+		
+			return this->name;
+		
 	}
-
-	bool login() 
-	{
-		FileSystem fls;
-		std::string name, password;
-
-		std::cout << "Введите ваш логин для входа: ";
-		std::cin >> name;
-
-		std::cout << "Введите ваш пароль, пожалуйста: ";
-		std::cin >> password;
-
-
-		fs::path p = fls.getPath();
-		std::string str;
-		std::ifstream in(fls.getPathLoginFile());
-		if (in.is_open())
-		{
-			bool key = false;
-
-			while (!key)
-			{
-				getline(in, str);
-
-				key = false;
-
-				size_t pos = str.find(name + " " + password);
-
-				if (pos != std::string::npos) 
-					key = true;
-			}
-			if (key)
-			{
-				std::cout << "Такой пользователь есть, вы в вошли" << std::endl;
-				in.close();
-				return true;
-			}
-			else
-			{
-				std::cout << "Такого пользователя нет, проверте правильность введеных данных" << std::endl;
-				in.close();
-				return false;
-			}
-		}
-	}
-
-	std::string getUserName() const
-	{
-		return this->name;
-	}
+	
 
 	std::string getUserPassword() const
 	{
