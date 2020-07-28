@@ -5,8 +5,7 @@ inline void API::setADRESS(std::string ADRESS_API)
 	this->ADRESS_API = ADRESS_API; 
 }
 
-
-size_t CurlWrite_CallbackFunc_StdString(void* contents, size_t size, size_t nmemb, std::string* s)
+size_t curlWriteFunc(void* contents, size_t size, size_t nmemb, std::string* s)
 {
 	size_t newLength = size * nmemb;
 	try
@@ -41,10 +40,9 @@ json API::requestPOST(std::string URL, json j)
 		curl_easy_setopt(curl, CURLOPT_URL, URL.c_str());
 
 		std::string json = j.dump();
-		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
+		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteFunc);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &answer);
 		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
-
 
 		this->code = curl_easy_perform(curl);
 
@@ -52,10 +50,10 @@ json API::requestPOST(std::string URL, json j)
 		{
 			std::cout << "ERROR CURL CODE: " << this->code << std::endl;
 		}
-
-		curl_easy_cleanup(curl);
-		curl_global_cleanup();
 	}
+
+	curl_easy_cleanup(curl);
+	curl_global_cleanup();
 
 	if (answer != "")
 	{
@@ -63,10 +61,7 @@ json API::requestPOST(std::string URL, json j)
 		return jAnswer;
 	}
 	return j;
-
 }
-
-
 
 std::string API::getADRESS()
 {
