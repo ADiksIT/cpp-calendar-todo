@@ -6,9 +6,6 @@
 #include "curl/curl.h"
 #include "nlohmann/json.hpp"
 
-
-
-
 #pragma comment(lib, "curl/libcurl_a_debug.lib")
 
 #pragma comment(lib, "Wldap32.lib")
@@ -26,9 +23,6 @@ class API
 	
 
 public:
-
-	//size_t CurlWrite_CallbackFunc_StdString(void* contents, size_t size, size_t nmemb, std::string* s);
-
 	void setADRESS(std::string ADRESS_API);
 
 	json requestPOST(std::string URL, json j);
