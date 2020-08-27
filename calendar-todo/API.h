@@ -17,15 +17,25 @@ using json = nlohmann::json;
 
 class API
 {
-	std::string ADRESS_API = "http://localhost:3000";
+	std::string ADRESS_API = "https://it-step-orginizer.herokuapp.com";
 	CURL* curl;
 	CURLcode code;
 	
+	std::string userKey;
+	std::string todosKey;
 
 public:
 	void setADRESS(std::string ADRESS_API);
 
+	void setUserKey(std::string userKey);
+	void setTodosKey(std::string todosKey);
+
+	std::string getUserKey();
+	std::string getTodosKey();
+
 	json requestPOST(std::string URL, json j);
+	
+	json GET(std::string URL);
 	
 	std::string getADRESS();
 

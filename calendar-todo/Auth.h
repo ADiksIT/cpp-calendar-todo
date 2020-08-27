@@ -8,12 +8,15 @@
 class Auth
 {
 	API api;
+
+	json jsonData(std::string* mes);
+	json request();
 public:
 	bool login();
 	
 	bool registration();
 
-	json jsonData(std::string* mes);
+
 
 };
 
