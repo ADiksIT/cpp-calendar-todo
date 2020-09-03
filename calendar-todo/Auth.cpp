@@ -14,6 +14,74 @@ int daysOfMonth(int month, int year)
 	else
 		return 30;
 }
+void setMonth(json answer, const int month) 
+{
+	time_t rawtime;
+	char buffer[80];
+
+	time(&rawtime);
+
+	struct tm* timeinfo = localtime(&rawtime);
+
+
+	timeinfo->tm_mon = month;
+	timeinfo->tm_mday = 1;
+
+	mktime(timeinfo);
+
+	std::string dt = asctime(timeinfo);
+
+	std::vector<std::string>dataDays = { "Mon", "Tue", "Web", "Thu", "Fri", "Sat", "Sun" };
+
+	strftime(buffer, sizeof(buffer), "-%m-", timeinfo);
+	std::string str(buffer);
+
+	std::vector<json>data;
+	int countDays = 0;
+
+	std::string year = std::to_string(timeinfo->tm_year + 1900);
+	for (auto i : answer[year]) {
+		std::size_t found = i["date"].dump().find(str);
+		if (found != std::string::npos)
+		{
+			std::string date = i["date"].dump();
+			std::string year = date.substr(1, 4);
+			std::string month = date.substr(6, 2);
+
+			countDays = daysOfMonth(stoi(month), stoi(year));
+			data.push_back(i);
+		}
+	}
+	
+
+	//for (auto i : data)
+	//{
+	//	std::cout << i << std::endl;
+	//}
+
+	//int indexDay = 0, index = 0;
+
+	//for (auto i : dataDays)
+	//{
+	//	std::cout << i << "\t";
+	//	std::size_t found = dt.find(i);
+	//	if (found != std::string::npos)
+	//		indexDay = index;
+	//	index++;
+	//}
+
+	//for (size_t i = 0; i < countDays + indexDay; i++)
+	//{
+	//	if (i % 7 == 0)
+	//		std::cout << "\n";
+
+	//	if (i < indexDay)
+	//		std::cout << " \t";
+	//	else
+	//		std::cout << i - indexDay + 1 << "\t";
+	//}
+	//std::cout << "\n";
+}
 bool Auth::login()
 {
 	std::string mes[2] = { "Enter your e-mail: ", "Enter your password: " };
@@ -33,94 +101,10 @@ bool Auth::login()
 	http.setTodosKey(todoesKey.dump().substr(2, 24));
 	http.setUserKey(userKey.dump().substr(1, 24));
 
-	std::cout << http.getTodosKey() << std::endl;
-	std::cout << http.getUserKey() << std::endl;
-
+	//===================================================
 	json answer = http.getTodos(http.getTodosKey());
 
-
-	time_t rawtime;
-	struct tm* timeinfo;
-	char buffer[80];
-
-	time(&rawtime);
-	timeinfo = localtime(&rawtime);
-
-	timeinfo->tm_mon = 7;
-	timeinfo->tm_wday = 6;
-	std::string dt = asctime(timeinfo);
-	std::cout << dt << std::endl;
-
-	std::vector<std::string>dataDays = { "Mon", "Tue", "Web", "Thu", "Fri", "Sat", "Sun" };
-	std::cout << timeinfo->tm_wday << std::endl;
-
-	strftime(buffer, sizeof(buffer), "-%m-", timeinfo);
-	std::string str(buffer);
-
-	std::vector<json>data;
-	int countDays = 0;
-	
-	for (auto i : answer["2020"]) {
-		std::size_t found = i["date"].dump().find(str);
-		if (found != std::string::npos)
-		{
-		std::string a = i["date"].dump();
-		std::string year = a.substr(1, 4);
-		std::string month = a.substr(6, 2);
-		countDays = daysOfMonth(stoi(month), stoi(year));
-		data.push_back(i);
-		}
-	}
-
-	for (auto i : data)
-	{
-		std::cout << i << std::endl;
-	}
-	std::cout << countDays << std::endl;
-
-	int indexDay = 0;
-	int index = 0;
-	for (auto i : dataDays)
-	{
-		std::cout << i << "\t";
-		std::size_t found = dt.find(i);
-		if (found != std::string::npos)
-			indexDay = index;
-		index++;
-	}
-
-	std::cout << indexDay << std::endl;
-
-	for (size_t i = 0; i < countDays + indexDay; i++)
-	{
-		if (i % 7 == 0)
-		{
-			std::cout << "\n";
-		}
-		if (i < indexDay)
-		{
-			std::cout << " \t";
-		}
-		else 
-		{
-			std::cout << i - indexDay + 1 << "\t";
-		}
-		
-	}
-	std::cout << "\n";
-
-	//for (auto i : answer["2020"]) {
-	//    std::cout << i["date"] << std::endl;
-	//}
-
-	//// current date/time based on current system
-	//time_t now = time(0);
-
-	//// convert now to string form
-	//tm* tm = localtime(&now);
-	//std::string a = (std:: string)(tm->tm_mon + 1);
-
-	//std::cout << << std::endl;
+	setMonth(answer, 8);
 
 	return anw["isCorrected"];
 }

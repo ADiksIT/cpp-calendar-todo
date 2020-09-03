@@ -30,6 +30,9 @@
     <ClCompile Include="ActionsAPI.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="CalendarUI.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Auth.h">
@@ -43,6 +46,9 @@
     </ClInclude>
     <ClInclude Include="ActionsAPI.h">
       <Filter>Файлы заголовков\net</Filter>
+    </ClInclude>
+    <ClInclude Include="CalendarUI.h">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

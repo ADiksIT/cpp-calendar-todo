@@ -4,6 +4,7 @@
 #include <string>
 #include "API.h"
 #include "ActionsAPI.h"
+#include "CalendarUI.h"
 
 
 class Auth
@@ -11,8 +12,9 @@ class Auth
 	
 
 	ActionsAPI http;
+	CalendarUI ui;
 	json jsonData(std::string* mes);
-	json request();
+	
 public:
 	bool login();
 	
