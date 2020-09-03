@@ -33,7 +33,7 @@ public:
 	std::string getUserKey();
 	std::string getTodosKey();
 
-	json requestPOST(std::string URL, json j);
+	json POST(std::string URL, json j);
 	
 	json GET(std::string URL);
 	

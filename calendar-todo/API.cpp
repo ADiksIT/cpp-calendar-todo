@@ -40,7 +40,7 @@ size_t curlWriteFunc(void* contents, size_t size, size_t nmemb, std::string* s)
 	return newLength;
 }
 
-json API::requestPOST(std::string URL, json j)
+json API::POST(std::string URL, json j)
 {
 
 	curl_global_init(CURL_GLOBAL_ALL);
