@@ -2,18 +2,16 @@
 
 #include <iostream>
 #include <string>
-#include "API.h"
-
+#include "ActionsAPI.h"
 
 class Auth
 {
-	API api;
+	ActionsAPI http;
+	json jsonData(std::string* mes);
 public:
 	bool login();
 	
 	bool registration();
-
-	json jsonData(std::string* mes);
 
 };
 

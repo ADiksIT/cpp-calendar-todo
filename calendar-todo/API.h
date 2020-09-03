@@ -17,7 +17,7 @@ using json = nlohmann::json;
 
 class API
 {
-	std::string ADRESS_API = "http://localhost:3000";
+	std::string ADRESS_API = "https://it-step-orginizer.herokuapp.com";
 	CURL* curl;
 	CURLcode code;
 	
@@ -25,7 +25,8 @@ class API
 public:
 	void setADRESS(std::string ADRESS_API);
 
-	json requestPOST(std::string URL, json j);
+	json GET(const std::string& URL);
+	json POST(const std::string& URL, json j);
 	
 	std::string getADRESS();
 

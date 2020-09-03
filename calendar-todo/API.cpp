@@ -5,6 +5,8 @@ inline void API::setADRESS(std::string ADRESS_API)
 	this->ADRESS_API = ADRESS_API; 
 }
 
+
+
 size_t curlWriteFunc(void* contents, size_t size, size_t nmemb, std::string* s)
 {
 	size_t newLength = size * nmemb;
@@ -20,7 +22,24 @@ size_t curlWriteFunc(void* contents, size_t size, size_t nmemb, std::string* s)
 	return newLength;
 }
 
-json API::requestPOST(std::string URL, json j)
+json API::GET(const std::string& URL)
+{
+	auto curl = curl_easy_init();
+	std::string response_string;
+	if (curl) {
+		curl_easy_setopt(curl, CURLOPT_URL, URL.c_str());
+		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteFunc);
+		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
+
+		curl_easy_perform(curl);
+		curl_easy_cleanup(curl);
+		curl = nullptr;
+	}
+	json jAnswer = json::parse(response_string);
+	return jAnswer;
+}
+
+json API::POST(const std::string& URL, json j)
 {
 
 	curl_global_init(CURL_GLOBAL_ALL);
@@ -55,7 +74,7 @@ json API::requestPOST(std::string URL, json j)
 	curl_easy_cleanup(curl);
 	curl_global_cleanup();
 
-	if (answer != "")
+	if (!answer.empty())
 	{
 		json jAnswer = json::parse(answer);
 		return jAnswer;

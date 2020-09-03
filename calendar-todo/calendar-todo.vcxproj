@@ -146,11 +146,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ActionsAPI.cpp" />
     <ClCompile Include="API.cpp" />
     <ClCompile Include="Auth.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActionsAPI.h" />
     <ClInclude Include="API.h" />
     <ClInclude Include="Auth.h" />
     <ClInclude Include="Menu.h" />

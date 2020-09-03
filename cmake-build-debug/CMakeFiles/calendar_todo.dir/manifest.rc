@@ -1,0 +1,2 @@
+#pragma code_page(65001)
+1 /* CREATEPROCESS_MANIFEST_RESOURCE_ID */ 24 /* RT_MANIFEST */ "C:/Users/Anton/source/repos/calendar-todo/cmake-build-debug/CMakeFiles/calendar_todo.dir/embed.manifest"

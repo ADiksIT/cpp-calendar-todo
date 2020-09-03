@@ -1,0 +1,3 @@
+C:/Users/Anton/source/repos/calendar-todo/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Anton/source/repos/calendar-todo/cmake-build-debug/CMakeFiles/calendar_todo.dir
+C:/Users/Anton/source/repos/calendar-todo/cmake-build-debug/CMakeFiles/rebuild_cache.dir
