@@ -136,6 +136,8 @@ bool Auth::registration()
 	return anw["isCorrected"];
 }
 
+
+
 json Auth::jsonData(std::string* mes)
 {
 	std::string email, password;

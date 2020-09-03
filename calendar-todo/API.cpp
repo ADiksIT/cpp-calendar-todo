@@ -5,7 +5,25 @@ inline void API::setADRESS(std::string ADRESS_API)
 	this->ADRESS_API = ADRESS_API; 
 }
 
+void API::setUserKey(std::string userKey)
+{
+	this->userKey = userKey;
+}
 
+void API::setTodosKey(std::string todosKey)
+{
+	this->todosKey = todosKey;
+}
+
+std::string API::getUserKey()
+{
+	return this->userKey;
+}
+
+std::string API::getTodosKey()
+{
+	return this->todosKey;
+}
 
 size_t curlWriteFunc(void* contents, size_t size, size_t nmemb, std::string* s)
 {
@@ -22,24 +40,7 @@ size_t curlWriteFunc(void* contents, size_t size, size_t nmemb, std::string* s)
 	return newLength;
 }
 
-json API::GET(const std::string& URL)
-{
-	auto curl = curl_easy_init();
-	std::string response_string;
-	if (curl) {
-		curl_easy_setopt(curl, CURLOPT_URL, URL.c_str());
-		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteFunc);
-		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
-
-		curl_easy_perform(curl);
-		curl_easy_cleanup(curl);
-		curl = nullptr;
-	}
-	json jAnswer = json::parse(response_string);
-	return jAnswer;
-}
-
-json API::POST(const std::string& URL, json j)
+json API::requestPOST(std::string URL, json j)
 {
 
 	curl_global_init(CURL_GLOBAL_ALL);
@@ -74,12 +75,46 @@ json API::POST(const std::string& URL, json j)
 	curl_easy_cleanup(curl);
 	curl_global_cleanup();
 
-	if (!answer.empty())
+	if (answer != "")
 	{
 		json jAnswer = json::parse(answer);
 		return jAnswer;
 	}
 	return j;
+}
+
+json API::GET(std::string URL)
+{
+	curl_global_init(CURL_GLOBAL_ALL);
+	this->curl = curl_easy_init();
+
+	std::string answer;
+
+	if (curl)
+	{
+		curl_easy_setopt(curl, CURLOPT_URL, URL.c_str());
+
+
+		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteFunc);
+		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &answer);
+	
+		this->code = curl_easy_perform(curl);
+
+		if (this->code)
+		{
+			std::cout << "ERROR CURL CODE: " << this->code << std::endl;
+		}
+	}
+
+	curl_easy_cleanup(curl);
+	curl_global_cleanup();
+
+	if (answer != "")
+	{
+		json jAnswer = json::parse(answer);
+		return jAnswer;
+	}
+	return answer;
 }
 
 std::string API::getADRESS()
